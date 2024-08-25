@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع صناعة عملات الميم الرقمية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button.btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button.btn:hover {
+            background-color: #218838;
+        }
+
+        #memePreview img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            header, footer {
+                text-align: center;
+            }
+
+            nav ul {
+                display: block;
+                text-align: center;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+
+            section#home h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 id="welcomeText">مرحبًا بك في موقع صناعة عملات الميم الرقمية</h1>
+    <nav>
+        <ul>
+            <li><a href="#home">الرئيسية</a></li>
+            <li><a href="#create">إنشاء عملة ميم</a></li>
+            <li><a href="#marketing">أدوات التسويق</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home">
+    <div class="container">
+        <h2>ابدأ الآن بإنشاء عملة الميم الخاصة بك</h2>
+        <button id="createButton" class="btn" onclick="document.getElementById('createMemeForm').scrollIntoView();">ابدأ الآن</button>
+    </div>
+</section>
+
+<section id="create">
+    <div class="container">
+        <h2>إنشاء عملة ميم</h2>
+        <form id="createMemeForm">
+            <label for="memeName">اسم العملة:</label>
+            <input type="text" id="memeName" placeholder="أدخل اسم العملة">
+
+            <label for="memeSymbol">رمز العملة:</label>
+            <input type="text" id="memeSymbol" placeholder="أدخل رمز العملة">
+
+            <label for="memeImage">صورة العملة:</label>
+            <input type="file" id="memeImage" accept="image/*">
+
+            <label for="memeDescription">وصف العملة:</label>
+            <textarea id="memeDescription" placeholder="أدخل وصف العملة"></textarea>
+
+            <button type="submit" class="btn">معاينة العملة</button>
+        </form>
+        <div id="memePreview"></div>
+    </div>
+</section>
+
+<section id="marketing">
+    <div class="container">
+        <h2>أدوات التسويق</h2>
+        <p>استخدم الروابط الترويجية لتعزيز عملاتك الميمية. تابع أداء عملاتك عبر وسائل التواصل الاجتماعي.</p>
+        <form id="promotionForm">
+            <label for="promoLink">رابط الترويج:</label>
+            <input type="text" id="promoLink" value="https://memecrypto.com/?ref=USER_ID" readonly>
+            <button type="button" class="btn" onclick="copyPromoLink()">نسخ الرابط</button>
+        </form>
+    </div>
+</section>
+
+<section id="payment">
+    <div class="container">
+        <h2>الدفع</h2>
+        <p>قم بتأكيد ودفع لإنشاء عملتك الميمية.</p>
+        <div id="paypal-button-container"></div>
+    </div>
+</section>
+
+<select id="languageSelect" style="position: fixed; top: 20px; right: 20px;">
+    <option value="ar">العربية</option>
+    <option value="en">English</option>
+</select>
+
+<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+<script>
+    // كائن يحتوي على الترجمات
+    const translations = {
+        'ar': {
+            'welcome': 'مرحبًا بك في موقع صناعة عملات الميم الرقمية',
+            'createMeme': 'ابدأ الآن',
+            'marketing': 'أدوات التسويق',
+            'payment': 'الدفع'
+        },
+        'en': {
+            'welcome': 'Welcome to the Meme Crypto Creation Site',
+            'createMeme': 'Get Started',
+            'marketing': 'Marketing Tools',
+            'payment': 'Payment'
+        }
+    };
+
+    // وظيفة لتغيير اللغة
+    function changeLanguage(language) {
+        document.getElementById('welcomeText').textContent = translations[language]['welcome'];
+        document.getElementById('createButton').textContent = translations[language]['createMeme'];
+    }
+
+    // حدث لتغيير اللغة عند اختيار المستخدم
+    document.getElementById('languageSelect').addEventListener('change', function() {
+        changeLanguage(this.value);
+    });
+
+    // وظائف لمشاركة العملة الميمية على الشبكات الاجتماعية
+    function shareOnTwitter(memeName, memeDescription) {
+        const tweetText = `Check out my new meme coin: ${memeName}! ${memeDescription}`;
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+        window.open(url, '_blank');
+    }
+
+    function shareOnFacebook(memeName) {
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(memeName)}`;
+        window.open(url, '_blank');
+    }
+
+    // حدث عند عرض معاينة العملة
+    document.getElementById('createMemeForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const memeName = document.getElementById('memeName').value;
+        const memeSymbol = document.getElementById('memeSymbol').value;
+        const memeImage = document.getElementById('memeImage').files[0];
+        const memeDescription = document.getElementById('memeDescription').value;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const memePreview = document.getElementById('memePreview');
+            memePreview.innerHTML = `
+                <h3>معاينة العملة</h3>
+                <img src="${e.target.result}" alt="صورة العملة" style="width: 100px;">
+                <p>اسم العملة: ${memeName}</p>
+                <p>رمز العملة: ${memeSymbol}</p>
+                <p>وصف العملة: ${memeDescription}</p>
+                <button onclick="shareOnTwitter('${memeName}', '${memeDescription}')" class="btn">مشاركة على تويتر</button>
+                <button onclick="shareOnFacebook('${memeName}')" class="btn">مشاركة على فيسبوك</button>
+            `;
+        };
+        reader.readAsDataURL(memeImage);
+    });
+
+    // وظيفة لنسخ رابط الترويج
+    function copyPromoLink() {
+        const promoLink = document.getElementById('promoLink');
+        promoLink.select();
+        document.execCommand('copy');
+        alert('تم نسخ الرابط الترويجي إلى الحافظة');
+    }
+
+    // تكامل مع PayPal
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '9.99' // سعر إنشاء العملة
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('تم الدفع بنجاح بواسطة ' + details.payer.name.given_name);
+                // يمكن هنا متابعة إجراءات إنشاء العملة الميمية بعد الدفع
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+
+</body>
+</html>
